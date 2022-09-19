@@ -7,16 +7,15 @@ export default function MySettings() {
 
   const { data } = useQuery('getUsers', getUsers);
 
-  console.log('data :>> ', data);
-
   return (
     <div>
       <p>this is my settings</p>
-      {data?.data?.map((item: any) => (
-        <p key={item?.username}>
-          {t('txt.hello')} {item?.username}
-        </p>
-      ))}
+      {data?.success &&
+        data?.data?.map((item: any) => (
+          <p key={item?.username}>
+            {t('txt.hello')} {item?.username}
+          </p>
+        ))}
     </div>
   );
 }

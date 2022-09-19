@@ -1,5 +1,8 @@
-import { darkMode, lightMode } from '@/styles/colors';
-import { MantineThemeColorsOverride, MantineThemeOverride } from '@mantine/core';
+// import { darkMode, lightMode } from '@/styles/colors';
+import {
+  // MantineThemeColorsOverride,
+  MantineThemeOverride,
+} from '@mantine/core';
 
 export const theme = {
   colorScheme: 'light',
@@ -10,7 +13,7 @@ export const theme = {
   white: '#fff',
   black: '#000',
 
-  colors: lightMode as MantineThemeColorsOverride,
+  // colors: lightMode as MantineThemeColorsOverride,
   // colors: {
   //   background: ['#fff']
   // },
@@ -60,7 +63,7 @@ export const darkTheme = {
   white: '#fff',
   black: '#000',
 
-  colors: darkMode as MantineThemeColorsOverride,
+  // colors: darkMode as MantineThemeColorsOverride,
   // colors: {
   //   background: ['#000']
   // },
