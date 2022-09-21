@@ -1,5 +1,6 @@
-// import { darkMode, lightMode } from '@/styles/colors';
+import { darkMode, lightMode } from '@/styles/colors';
 import {
+  MantineThemeColorsOverride,
   // MantineThemeColorsOverride,
   MantineThemeOverride,
 } from '@mantine/core';
@@ -13,7 +14,7 @@ export const theme = {
   white: '#fff',
   black: '#000',
 
-  // colors: lightMode as MantineThemeColorsOverride,
+  colors: lightMode as MantineThemeColorsOverride,
   // colors: {
   //   background: ['#fff']
   // },
@@ -21,7 +22,7 @@ export const theme = {
   // primaryColor: '#3308A8',
 
   // font-family and line-height used in most components
-  fontFamily: 'Roboto, sans-serif',
+  fontFamily: 'Inter, sans-serif',
   //   lineHeight: string | number,
 
   // Sizes for corresponding properties
@@ -63,7 +64,7 @@ export const darkTheme = {
   white: '#fff',
   black: '#000',
 
-  // colors: darkMode as MantineThemeColorsOverride,
+  colors: darkMode as MantineThemeColorsOverride,
   // colors: {
   //   background: ['#000']
   // },
@@ -71,7 +72,7 @@ export const darkTheme = {
   // primaryColor: '#3308A8',
 
   // font-family and line-height used in most components
-  fontFamily: 'Roboto, sans-serif',
+  fontFamily: 'Inter, sans-serif',
   //   lineHeight: string | number,
 
   // Sizes for corresponding properties

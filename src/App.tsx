@@ -4,10 +4,11 @@ import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core
 import { darkTheme, theme } from './configs/theme';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { CustomFonts } from '@/configs/fonts';
 
 function App() {
   const element = useRoutes(routes);
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
 
   const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
   const toggleColorScheme = (value?: ColorScheme) =>
@@ -16,11 +17,12 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider theme={dark ? darkTheme : theme} withGlobalStyles withNormalizeCSS>
-        {element}
-      </MantineProvider>
-    </ColorSchemeProvider>
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <MantineProvider theme={dark ? darkTheme : theme} withGlobalStyles withNormalizeCSS>
+          <CustomFonts />
+          {element}
+        </MantineProvider>
+      </ColorSchemeProvider>
     </QueryClientProvider>
   );
 }

@@ -1,23 +1,9 @@
 export const lightMode = {
-  purple: ['#D4C5F9'],
-  blue: ['#228be6'],
-  black: ['#16073A', '#0D0229', '#000'],
-  white: ['#fff'],
-  gray: ['#F4F2F9', '#B9B5C3', '#e9ecef', '#e9ecef'],
-  green: ['#BCFBE3'],
-  pink: ['#FBBCCF'],
-  background: ['#fff'],
-  text: ['#000'],
+  subtitle: '#B5B0A1',
+  card: 'rgba(248, 246, 242, 0.3)',
 };
 
 export const darkMode = {
-  purple: ['#D4C5F9'],
-  blue: ['#228be6'],
-  black: ['#16073A', '#0D0229', '#000'],
-  white: ['#fff'],
-  gray: ['#F4F2F9', '#B9B5C3', '#e9ecef', '#e9ecef'],
-  green: ['#BCFBE3'],
-  pink: ['#FBBCCF'],
-  background: ['#000'],
-  text: ['#fff'],
+  subtitle: '#CDCDDE',
+  card: '#1E1E2D',
 };

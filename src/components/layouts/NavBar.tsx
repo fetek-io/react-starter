@@ -20,7 +20,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   header: {
-    padding: theme.spacing.md,
+    padding: theme.spacing.xl,
     paddingTop: 0,
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
