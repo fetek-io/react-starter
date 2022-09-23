@@ -3,6 +3,7 @@ import qs from 'qs';
 
 export async function getUsers() {
   try {
+    // debugger;
     const res = await request.get('/users');
     return {
       success: true,

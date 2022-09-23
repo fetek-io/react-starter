@@ -15,6 +15,10 @@ import {
 import { useForm } from '@mantine/form';
 import { useNavigate } from 'react-router-dom';
 import { login } from '@/services/userService';
+import { useState } from 'react';
+import { showNotification } from '@mantine/notifications';
+import { IconCircleCheck, IconX } from '@tabler/icons';
+import { setToken, setRefreshToken } from '@/services/localStorageService';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -30,6 +34,7 @@ const useStyles = createStyles((theme) => ({
 export default function AuthenticationTitle() {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
       email: '',
@@ -61,12 +66,30 @@ export default function AuthenticationTitle() {
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <form
             onSubmit={form.onSubmit(async (values) => {
+              setLoading(true);
               const res = await login({
                 username: values.email,
                 password: values.password,
               });
+
+              setLoading(false);
               if (res.success) {
+                setToken(res.data.access_token);
+                setRefreshToken(res.data.refresh_token);
+                showNotification({
+                  title: 'Success!',
+                  message: 'Login successfully',
+                  color: 'secondary',
+                  icon: <IconCircleCheck />,
+                });
                 navigate('/');
+              } else {
+                showNotification({
+                  title: res?.data?.code,
+                  message: res?.data?.message,
+                  color: 'red',
+                  icon: <IconX />,
+                });
               }
             })}
           >
@@ -92,7 +115,8 @@ export default function AuthenticationTitle() {
                 Forgot password?
               </Anchor>
             </Group>
-            <Button fullWidth mt="xl" type="submit">
+
+            <Button fullWidth mt="xl" type="submit" loading={loading}>
               Sign in
             </Button>
           </form>

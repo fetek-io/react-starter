@@ -1,19 +1,32 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { getAccessToken, getRefreshToken, setToken } from '@/services/localStorageService';
+import {
+  getAccessToken,
+  getRefreshToken,
+  setToken,
+  setRefreshToken,
+} from '@/services/localStorageService';
+import {
+  BEARER,
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+  AUTHORIZATION,
+  REFRESH_TOKEN_ENDPOINT,
+  SUCCESS_STATUS,
+  UNAUTHORIZED_STATUS,
+} from '@/utils/constant';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: BASE_URL,
   timeout: 60000,
 });
 
-axios.interceptors.request.use(
+request.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const token = getAccessToken();
-    if (token && config.headers) {
-      config.headers['Authorization'] = 'Bearer ' + token;
+    if (token && config.headers && config.url !== REFRESH_TOKEN_ENDPOINT) {
+      config.headers[AUTHORIZATION] = BEARER + token;
     }
-    // config.headers['Content-Type'] = 'application/json';
     return config;
   },
   (error) => {
@@ -21,30 +34,36 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+request.interceptors.response.use(
   (response) => {
     return response;
   },
   function (error) {
     const originalRequest = error.config;
-    const navigate = useNavigate();
-
-    if (error.response.status === 401 && originalRequest.url === '/auth/token') {
-      navigate('/login');
-      return Promise.reject(error);
+    if (
+      error.response.status === UNAUTHORIZED_STATUS &&
+      originalRequest.url === REFRESH_TOKEN_ENDPOINT
+    ) {
+      return Promise.reject(error).finally(() => {
+        // 👇️ ts-ignore ignores any ts errors on the next line
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.location = window.location.protocol + '//' + window.location.host + '/login';
+      });
     }
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.status === UNAUTHORIZED_STATUS && !originalRequest._retry) {
       originalRequest._retry = true;
       const refreshToken = getRefreshToken();
-      return axios
-        .post('/auth/token', {
-          refresh_token: refreshToken,
+      return request
+        .get(REFRESH_TOKEN_ENDPOINT, {
+          headers: { Authorization: BEARER + refreshToken },
         })
         .then((res) => {
-          if (res.status === 201) {
-            setToken(res.data);
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + getAccessToken();
+          if (res.status === SUCCESS_STATUS) {
+            setToken(res.data[ACCESS_TOKEN]);
+            setRefreshToken(res.data[REFRESH_TOKEN]);
+            axios.defaults.headers.common[AUTHORIZATION] = BEARER + getAccessToken();
             return axios(originalRequest);
           }
         });

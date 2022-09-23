@@ -5,6 +5,7 @@ import { darkTheme, theme } from './configs/theme';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { CustomFonts } from '@/configs/fonts';
+import { NotificationsProvider } from '@mantine/notifications';
 
 function App() {
   const element = useRoutes(routes);
@@ -19,8 +20,10 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={dark ? darkTheme : theme} withGlobalStyles withNormalizeCSS>
-          <CustomFonts />
-          {element}
+          <NotificationsProvider>
+            <CustomFonts />
+            {element}
+          </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </QueryClientProvider>
