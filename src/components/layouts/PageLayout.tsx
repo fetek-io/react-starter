@@ -1,62 +1,28 @@
-import { useMobileDetect } from '@/hooks/useMobileDetect';
-import {
-  ActionIcon,
-  AppShell,
-  Box,
-  Container,
-  Divider,
-  Group,
-  Paper,
-  TextInput,
-  Title,
-  // Header,
-  useMantineColorScheme,
-} from '@mantine/core';
-import { Outlet } from 'react-router-dom';
-import { SubTitle } from '../core/Typography';
-// import Navigation from './Navigation';
-// import {  } from '@tabler/icons';
-// import { useStyles } from './PageLayout.styles';
-// import { useTranslation } from 'react-i18next';
+import { AppShell, Navbar, Text, Footer, useMantineTheme, Container } from '@mantine/core';
+import { useState } from 'react';
+import { Outlet } from 'react-router';
 import HeaderAction from './Header';
-import NavbarNested from './NavBar';
-import { IconSearch, IconSun, IconMoonStars } from '@tabler/icons';
 
 export default function PageLayout() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  // const { i18n } = useTranslation();
-  // const { classes } = useStyles();
-  const dark = colorScheme === 'dark';
+  const theme = useMantineTheme();
+  const [opened, setOpened] = useState(false);
 
-  const isMobile = useMobileDetect();
-
+  const handleOpen = (status: boolean) => {
+    setOpened(status);
+  };
   return (
     <div>
       <AppShell
-        padding="xl"
-        navbar={<NavbarNested />}
-        header={isMobile ? <HeaderAction /> : undefined}
+        styles={{
+          main: {
+            background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+          },
+        }}
+        navbarOffsetBreakpoint="sm"
+        asideOffsetBreakpoint="sm"
+        header={<HeaderAction opened={opened} handleOpen={handleOpen} />}
       >
-        {!isMobile && (
-          <Box className="flex justify-between" style={{ margin: '-10px' }}>
-            <Box>
-              <Title order={4}>Dashboard</Title>
-              <SubTitle>You’ve got 24 New Customers</SubTitle>
-            </Box>
-            <Group>
-              <TextInput
-                placeholder="Search"
-                icon={<IconSearch size={16} />}
-                rightSectionWidth={90}
-                styles={{ rightSection: { pointerEvents: 'none' } }}
-              />
-              <ActionIcon size={35} variant="default" onClick={() => toggleColorScheme()}>
-                {dark ? <IconSun size={20} /> : <IconMoonStars size={20} />}
-              </ActionIcon>
-            </Group>
-          </Box>
-        )}
-        <Container fluid className="pt-12">
+        <Container fluid>
           <Outlet />
         </Container>
       </AppShell>

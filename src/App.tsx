@@ -1,11 +1,23 @@
 import { useRoutes } from 'react-router-dom';
 import { routes } from './configs/router';
-import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
+import { ColorScheme, ColorSchemeProvider, MantineProvider, Global } from '@mantine/core';
 import { darkTheme, theme } from './configs/theme';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { CustomFonts } from '@/configs/fonts';
 import { NotificationsProvider } from '@mantine/notifications';
+
+function MyGlobalStyles() {
+  return (
+    <Global
+      styles={() => ({
+        '*, *::before, *::after': { boxSizing: 'border-box' },
+        'input, button:not(.mantine-Tabs-tab)': { borderRadius: '20px !important' },
+        // ...other global styles
+      })}
+    />
+  );
+}
 
 function App() {
   const element = useRoutes(routes);
@@ -22,6 +34,7 @@ function App() {
         <MantineProvider theme={dark ? darkTheme : theme} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider>
             <CustomFonts />
+            <MyGlobalStyles />
             {element}
           </NotificationsProvider>
         </MantineProvider>

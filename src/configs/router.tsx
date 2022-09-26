@@ -3,6 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 import MySettings from '@/pages/settings';
 import LoginPage from '@/pages/login';
 import HomePage from '@/pages/Home';
+import JobsBoard from '@/pages/jobs';
 
 export const routes = [
   {
@@ -18,6 +19,11 @@ export const routes = [
         path: '/home',
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: '/jobs',
+        index: true,
+        element: <JobsBoard />,
       },
     ],
   },

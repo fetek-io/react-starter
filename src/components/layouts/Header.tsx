@@ -1,141 +1,138 @@
 import {
-  createStyles,
   Header,
-  Container,
+  Burger,
+  MediaQuery,
+  useMantineTheme,
   Group,
   Button,
-  Burger,
-  Drawer,
-  Navbar,
-  Code,
-  ScrollArea,
+  useMantineColorScheme,
+  ActionIcon,
+  Menu,
+  Text,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-// import { MantineLogo } from '@mantine/ds';
+import logo from '@/assets/images/logo/horizontal-logo.svg';
+import { SubTitle } from '../core/Typography';
+import {
+  IconSun,
+  IconMoonStars,
+  IconUserCircle,
+  IconBriefcase,
+  IconChevronDown,
+} from '@tabler/icons';
+import { MenuItem } from '../core/mixed/MenuItem';
 
-import { LinksGroup } from '../core/LinksGroup';
-import { UserButton } from '../core/UserButton';
-import { mockdata } from '@/utils/mockdata';
+interface Props {
+  opened: boolean;
+  handleOpen: (status: boolean) => void;
+}
 
-const HEADER_HEIGHT = 60;
+export default function HeaderAction({ opened, handleOpen }: Props) {
+  const theme = useMantineTheme();
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-const useStyles = createStyles((theme) => ({
-  inner: {
-    height: HEADER_HEIGHT,
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-
-  links: {
-    [theme.fn.smallerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  burger: {
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  link: {
-    display: 'block',
-    lineHeight: 1,
-    padding: '8px 12px',
-    borderRadius: theme.radius.sm,
-    textDecoration: 'none',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
-    fontWeight: 500,
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-    },
-  },
-
-  linkLabel: {
-    marginRight: 5,
-  },
-
-  //   nav bar
-
-  navbar: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
-    paddingBottom: 0,
-  },
-
-  header: {
-    padding: theme.spacing.md,
-    paddingTop: 0,
-    marginLeft: -theme.spacing.md,
-    marginRight: -theme.spacing.md,
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    borderBottom: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
-  },
-
-  navlinks: {
-    marginLeft: -theme.spacing.md,
-    marginRight: -theme.spacing.md,
-  },
-
-  linksInner: {
-    paddingTop: theme.spacing.xl,
-    paddingBottom: theme.spacing.xl,
-  },
-
-  footer: {
-    marginLeft: -theme.spacing.md,
-    marginRight: -theme.spacing.md,
-    borderTop: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
-  },
-}));
-
-export default function HeaderAction() {
-  const { classes } = useStyles();
-  const [opened, { toggle }] = useDisclosure(false);
-
-  const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
-
+  const dark = colorScheme === 'dark';
   return (
-    <Header height={HEADER_HEIGHT} sx={{ borderBottom: 0 }} mb={120}>
-      <Container className={classes.inner} fluid>
-        <Group>
-          <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
-          My Logo
-        </Group>
-
-        <Button radius="xl" sx={{ height: 30 }}>
-          Get early access
-        </Button>
-      </Container>
-      <Drawer opened={opened} onClose={toggle} title="Register" padding="xl" size="75%">
-        <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
-          <Navbar.Section className={classes.header}>
-            <Group position="apart">
-              Logo
-              {/* <Logo width={120} /> */}
-              <Code sx={{ fontWeight: 700 }}>v3.1.2</Code>
+    <Header height={70} p="md">
+      <div className="h-full flex items-center">
+        <Group position="apart" className="w-full">
+          <Group>
+            <img src={logo} alt="logo" style={{ maxWidth: '60px', height: 'auto' }} />
+            <MediaQuery smallerThan="lg" styles={{ display: 'none' }}>
+              <div>
+                <SubTitle size={'sm'}>#1 Job Board for tech industry in Europe</SubTitle>
+              </div>
+            </MediaQuery>
+            <MediaQuery smallerThan="lg" styles={{ display: 'none' }}>
+              <ActionIcon size={35} variant="default" onClick={() => toggleColorScheme()}>
+                {dark ? <IconSun size={20} /> : <IconMoonStars size={20} />}
+              </ActionIcon>
+            </MediaQuery>
+          </Group>
+          <MediaQuery smallerThan="lg" styles={{ display: 'none' }}>
+            <Group>
+              <MenuItem active={true}>Offers</MenuItem>
+              <MenuItem>Brand Stories</MenuItem>
+              <MenuItem>Geek</MenuItem>
+              <MenuItem>Matchmaking</MenuItem>
+              <Button variant="default" color="gray">
+                Post a Job
+              </Button>
+              <Menu shadow="md" width={200}>
+                <Menu.Target>
+                  <Button color={'default'}>
+                    Sign in&nbsp;
+                    <IconChevronDown size={14} />
+                  </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item icon={<IconUserCircle size={18} />}>Sign in as a developer</Menu.Item>
+                  <Menu.Item icon={<IconBriefcase size={18} />}>
+                    Sign in to Employer Panel
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+              <Group>
+                <Menu shadow="md" width={200}>
+                  <Menu.Target>
+                    <Button variant="default" color="gray" className="border-none">
+                      USD
+                    </Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>Select your currency</Menu.Label>
+                    <Menu.Item>USD</Menu.Item>
+                    <Menu.Item>VND</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+                <Burger
+                  opened={opened}
+                  onClick={() => handleOpen(!opened)}
+                  size="sm"
+                  color={theme.colors.gray[6]}
+                />
+              </Group>
             </Group>
-          </Navbar.Section>
-
-          <Navbar.Section grow className={classes.navlinks} component={ScrollArea}>
-            <div className={classes.linksInner}>{links}</div>
-          </Navbar.Section>
-
-          <Navbar.Section className={classes.footer}>
-            <UserButton
-              image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
-              name="Ann Nullpointer"
-              email="anullpointer@yahoo.com"
-            />
-          </Navbar.Section>
-        </Navbar>
-      </Drawer>
+          </MediaQuery>
+          <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+            <Group>
+              <Menu shadow="md" width={200}>
+                <Menu.Target>
+                  <Button color={'default'}>
+                    Sign in&nbsp;
+                    <IconChevronDown size={14} />
+                  </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item icon={<IconUserCircle size={18} />}>Sign in as a developer</Menu.Item>
+                  <Menu.Item icon={<IconBriefcase size={18} />}>
+                    Sign in to Employer Panel
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+              <Group>
+                <Menu shadow="md" width={200}>
+                  <Menu.Target>
+                    <Button variant="default" color="gray" className="border-none">
+                      USD
+                    </Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>Select your currency</Menu.Label>
+                    <Menu.Item>USD</Menu.Item>
+                    <Menu.Item>VND</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+                <Burger
+                  opened={opened}
+                  onClick={() => handleOpen(!opened)}
+                  size="sm"
+                  color={theme.colors.gray[6]}
+                />
+              </Group>
+            </Group>
+          </MediaQuery>
+        </Group>
+      </div>
     </Header>
   );
 }
