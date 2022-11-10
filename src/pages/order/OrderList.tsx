@@ -15,15 +15,6 @@ import { elements } from '@/utils/mockdata';
 import { forwardRef, useCallback, useRef, useState } from 'react';
 import useBookSearch from './useBookSearch';
 
-const rows = elements.map((element) => (
-  <tr key={element.symbol}>
-    <td>{element.position}</td>
-    <td>{element.name}</td>
-    <td>{element.symbol}</td>
-    <td>{element.mass}</td>
-  </tr>
-));
-
 interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
   label: string;
   description: string;
@@ -144,7 +135,16 @@ export default function OrderList() {
                       <th>Atomic mass</th>
                     </tr>
                   </thead>
-                  <tbody>{rows}</tbody>
+                  <tbody>
+                    {elements.map((element) => (
+                      <tr key={element.symbol}>
+                        <td>{element.position}</td>
+                        <td>{element.name}</td>
+                        <td>{element.symbol}</td>
+                        <td>{element.mass}</td>
+                      </tr>
+                    ))}
+                  </tbody>
                   <tfoot>
                     <tr>
                       <th>Total</th>

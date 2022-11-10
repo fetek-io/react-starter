@@ -3,12 +3,13 @@ import request from '@/utils/request';
 export interface ProductRequest {
   limit: number;
   offset: number;
-  name: string;
-  category: string;
-  brand: string;
+  name?: string;
+  category?: string;
+  brand?: string;
 }
 
 export interface Product {
+  id: number;
   name: string;
   description: string;
   price: number;

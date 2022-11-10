@@ -14,9 +14,7 @@ export default function useProductSearch(query: string, pageNumber: number) {
     const res = await getProducts({
       limit: 5,
       offset: pageNumber,
-      name: query,
-      category: '',
-      brand: '',
+      name: query ? query : undefined,
     });
     setLoading(false);
     if (res.success) {
