@@ -7,7 +7,19 @@ import {
   IconAdjustments,
   IconLock,
   TablerIcon,
+  IconChartPie,
+  IconBuildingStore,
+  IconApple,
+  IconPackages,
+  IconGift,
+  IconReceipt2,
+  IconUser,
+  IconTransferIn,
+  IconBuildingWarehouse,
+  IconSettings,
+  IconTruckLoading,
 } from '@tabler/icons';
+import { ApexOptions } from 'apexcharts';
 
 interface LinksGroupProps {
   icon: TablerIcon;
@@ -17,7 +29,7 @@ interface LinksGroupProps {
 }
 
 export const mockdata = [
-  { label: 'Dashboard', icon: IconGauge },
+  { label: 'Dashboard', icon: IconChartPie },
   {
     label: 'Market news',
     icon: IconNotes,
@@ -48,6 +60,59 @@ export const mockdata = [
       { label: 'Enable 2FA', link: '/' },
       { label: 'Change password', link: '/' },
       { label: 'Recovery codes', link: '/' },
+    ],
+  },
+] as LinksGroupProps[];
+
+export const MenuLeft = [
+  {
+    label: 'Tổng quan',
+    icon: IconChartPie,
+    links: [
+      {
+        label: 'Báo cáo theo doanh thu',
+        link: 'reports/revenue-report',
+      },
+      {
+        label: 'Báo cáo theo lợi nhuận',
+        link: 'reports/profit-report',
+      },
+    ],
+  },
+  {
+    label: 'Cửa hàng',
+    icon: IconBuildingStore,
+    links: [{ label: 'DS cửa hàng', link: '/stores' }],
+  },
+  { label: 'Sản phẩm', icon: IconApple, links: [{ label: 'DS sản phẩm', link: '/products' }] },
+  { label: 'Combo', icon: IconPackages, links: [{ label: 'DS combo', link: '/combos' }] },
+  { label: 'Voucher', icon: IconGift, links: [{ label: 'DS voucher', link: '/vouchers' }] },
+  { label: 'Đơn hàng', icon: IconReceipt2, links: [{ label: 'DS đơn hàng', link: '/orders' }] },
+  { label: 'Khách hàng', icon: IconUser, links: [{ label: 'DS khách hàng', link: '/customers' }] },
+  {
+    label: 'Nhà cung cấp',
+    icon: IconTruckLoading,
+    links: [{ label: 'DS nhà cung cấp', link: '/providers' }],
+  },
+  {
+    label: 'Nhập hàng',
+    icon: IconTransferIn,
+    links: [{ label: 'DS nhập hàng', link: '/imported-goods' }],
+  },
+  {
+    label: 'Tồn kho',
+    icon: IconBuildingWarehouse,
+    links: [
+      { label: 'Báo cáo tồn kho', link: '/in-stock' },
+      { label: 'DS tồn kho', link: '/in-stock/list' },
+    ],
+  },
+  {
+    label: 'Cấu hình',
+    icon: IconSettings,
+    links: [
+      { label: 'Cấu hình cửa hàng', link: '/configs/shop' },
+      { label: 'Phương thức thanh toán', link: '/configs/payment' },
     ],
   },
 ] as LinksGroupProps[];
@@ -111,7 +176,7 @@ export const state2 = {
         format: 'dd/MM/yy HH:mm',
       },
     },
-  },
+  } as ApexOptions,
 };
 export const state3 = {
   series: [
@@ -202,7 +267,7 @@ export const state3 = {
         rotate: -90,
       },
     },
-  },
+  } as ApexOptions,
 };
 
 export const state4 = {
@@ -239,5 +304,13 @@ export const state4 = {
         'Germany',
       ],
     },
-  },
+  } as ApexOptions,
 };
+
+export const elements = [
+  { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
+  { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
+  { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
+  { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
+  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
+];

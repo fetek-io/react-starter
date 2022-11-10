@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles } from '@mantine/core';
 import { TablerIcon, IconCalendarStats, IconChevronLeft, IconChevronRight } from '@tabler/icons';
+import { Link, useLocation } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -34,6 +35,11 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     },
+
+    '&.active': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
+      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    },
   },
 
   chevron: {
@@ -49,17 +55,17 @@ interface LinksGroupProps {
 }
 
 export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksGroupProps) {
-  const { classes, theme } = useStyles();
+  const { pathname } = useLocation();
+  const { classes, theme, cx } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
   const items = (hasLinks ? links : []).map((link) => (
-    <Text<'a'>
-      component="a"
-      className={classes.link}
-      href={link.link}
+    <Text
+      component={Link}
+      className={cx(classes.link, pathname.includes(link?.link) ? 'active' : undefined)}
+      to={link?.link ? link?.link : '/'}
       key={link.label}
-      onClick={(event) => event.preventDefault()}
     >
       {link.label}
     </Text>

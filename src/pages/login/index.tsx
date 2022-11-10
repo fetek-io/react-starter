@@ -43,8 +43,9 @@ export default function AuthenticationTitle() {
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      // email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
       password: (value: string | null) => (value && value.trim() ? null : 'Required password'),
+      email: (value: string | null) => (value && value.trim() ? null : 'Required username'),
     },
   });
 

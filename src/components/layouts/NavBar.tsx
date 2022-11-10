@@ -8,15 +8,18 @@ import {
 } from '@mantine/core';
 import { LinksGroup } from '../core/LinksGroup';
 import { UserButton } from '../core/UserButton';
-import { mockdata } from '@/utils/mockdata';
+import { MenuLeft, mockdata } from '@/utils/mockdata';
 import avatar from '@/assets/images/logo/logo-no-name.svg';
 import logo from '@/assets/images/logo/horizontal-logo.svg';
 import { IconSun, IconMoonStars } from '@tabler/icons';
+import { Link, useLocation } from 'react-router-dom';
+import { map } from 'lodash';
 // import HeaderAction from './Header';
 const useStyles = createStyles((theme) => ({
   navbar: {
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
     paddingBottom: 0,
+    top: 0,
   },
 
   header: {
@@ -49,9 +52,30 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+function checkNavOpenStatus(links?: { label: string; link: string }[], pathname?: string) {
+  let hasLink = false;
+  if (links && pathname) {
+    const linkArr = links?.map((link: { label: string; link: string }) => link?.link);
+
+    linkArr.forEach((item) => {
+      if (pathname.includes(item)) {
+        hasLink = true;
+      }
+    });
+  }
+  return hasLink;
+}
+
 export default function NavbarNested() {
   const { classes } = useStyles();
-  const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
+  const { pathname } = useLocation();
+  const links = MenuLeft.map((item) => (
+    <LinksGroup
+      {...item}
+      key={item.label}
+      initiallyOpened={checkNavOpenStatus(item.links, pathname)}
+    />
+  ));
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
   return (
@@ -68,7 +92,9 @@ export default function NavbarNested() {
             {/* <HeaderAction /> */}
             <Grid>
               <Grid.Col span={6}>
-                <img src={logo} alt="logo" style={{ maxWidth: '60px', height: 'auto' }} />
+                <Link to={'/'}>
+                  <img src={logo} alt="logo" style={{ maxWidth: '60px', height: 'auto' }} />
+                </Link>
               </Grid.Col>
               <Grid.Col span={6}></Grid.Col>
             </Grid>

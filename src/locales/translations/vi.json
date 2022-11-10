@@ -1,3 +1,24 @@
 {
-  "txt.hello" : "Xin chào"
+  "txt.hello": "Xin chào",
+  "orders": "Đơn hàng",
+  "products": "Sản phẩm",
+  "stores": "Cửa hàng",
+  "combos": "Combo",
+  "vouchers": "Voucher",
+  "customers": "Khách hàng",
+  "providers": "Nhà cung cấp",
+  "imported-goods": "Nhập hàng",
+  "in-stock": "Tồn kho",
+  "reports": "Báo cáo",
+  "configs": "Cấu hình",
+  "shop": "Cửa hàng",
+  "payment": "Thanh toán",
+  "profit-by-time": "Lợi nhuận theo thời gian",
+  "profit-by-store": "Lợi nhuận theo chi nhánh",
+  "profit-by-employee": "Lợi nhuận theo nhân viên",
+  "revenue-by-time": "Doanh thu theo thời gian",
+  "revenue-by-store": "Doanh thu theo chi nhánh",
+  "revenue-by-employee": "Doanh thu theo nhân viên",
+  "revenue-report": "Báo cáo doanh thu",
+  "profit-report": "Báo cáo lợi nhuận"
 }

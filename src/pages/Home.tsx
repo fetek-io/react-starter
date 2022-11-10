@@ -2,7 +2,6 @@ import ChartPaper from '@/components/chart/ChartPaper';
 import { SubTitle } from '@/components/core/Typography';
 import {
   BackgroundImage,
-  Box,
   Button,
   Center,
   createStyles,
@@ -20,6 +19,7 @@ import {
   Badge,
   Avatar,
   Group,
+  Box,
 } from '@mantine/core';
 import ReactApexChart from 'react-apexcharts';
 import { IconArrowRight } from '@tabler/icons';
@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <>
       {/* ///////////////////////////////// */}
-      <Grid>
+      <Grid className="mt-2 pa-4">
         <Grid.Col lg={4} xs={12}>
           <ChartPaper
             titleTxt="69,700"

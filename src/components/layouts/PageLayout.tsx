@@ -1,33 +1,14 @@
 import { useMobileDetect } from '@/hooks/useMobileDetect';
-import {
-  ActionIcon,
-  AppShell,
-  Box,
-  Container,
-  Divider,
-  Group,
-  Paper,
-  TextInput,
-  Title,
-  // Header,
-  useMantineColorScheme,
-} from '@mantine/core';
+import BreadCrumbs from '@/components/layouts/BreadCrumbs';
+import { AppShell, Box, Container, Group, TextInput, Title } from '@mantine/core';
 import { Outlet } from 'react-router-dom';
 import { SubTitle } from '../core/Typography';
-// import Navigation from './Navigation';
-// import {  } from '@tabler/icons';
-// import { useStyles } from './PageLayout.styles';
-// import { useTranslation } from 'react-i18next';
 import HeaderAction from './Header';
+import LogOut from './LogOut';
 import NavbarNested from './NavBar';
-import { IconSearch, IconSun, IconMoonStars } from '@tabler/icons';
+import { IconSearch } from '@tabler/icons';
 
 export default function PageLayout() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  // const { i18n } = useTranslation();
-  // const { classes } = useStyles();
-  const dark = colorScheme === 'dark';
-
   const isMobile = useMobileDetect();
 
   return (
@@ -37,8 +18,8 @@ export default function PageLayout() {
         navbar={<NavbarNested />}
         header={isMobile ? <HeaderAction /> : undefined}
       >
-        {!isMobile && (
-          <Box className="flex justify-between" style={{ margin: '-10px' }}>
+        <Container fluid className="pt-0 pl-0 pr-0">
+          <Box className="flex justify-between pa-2">
             <Box>
               <Title order={4}>Dashboard</Title>
               <SubTitle>You’ve got 24 New Customers</SubTitle>
@@ -50,14 +31,18 @@ export default function PageLayout() {
                 rightSectionWidth={90}
                 styles={{ rightSection: { pointerEvents: 'none' } }}
               />
-              <ActionIcon size={35} variant="default" onClick={() => toggleColorScheme()}>
+              {/* <ActionIcon size={35} variant="default" onClick={() => toggleColorScheme()}>
                 {dark ? <IconSun size={20} /> : <IconMoonStars size={20} />}
-              </ActionIcon>
+              </ActionIcon> */}
+              <Box>
+                <LogOut />
+              </Box>
             </Group>
           </Box>
-        )}
-        <Container fluid className="pt-12">
-          <Outlet />
+          <BreadCrumbs />
+          <Box className="p-2">
+            <Outlet />
+          </Box>
         </Container>
       </AppShell>
     </div>

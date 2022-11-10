@@ -15,3 +15,8 @@ export function setToken(token: string) {
 export function setRefreshToken(token: string) {
   localStorage.setItem(REFRESH_TOKEN, token);
 }
+
+export function logOut() {
+  setToken('');
+  setRefreshToken('');
+}
