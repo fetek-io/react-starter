@@ -9,8 +9,9 @@ import {
   Pagination,
   LoadingOverlay,
   TextInput,
+  ActionIcon,
 } from '@mantine/core';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { getProducts, Product } from '@/services/productService';
 import { useLocation, useNavigate } from 'react-router';
@@ -18,12 +19,15 @@ import { createSearchParams } from 'react-router-dom';
 import * as queryString from 'query-string';
 import { SubTitle } from '@/components/core/Typography';
 import { debounce } from 'lodash';
+import { IconX, IconLoader2 } from '@tabler/icons';
+import { v4 as uuid } from 'uuid';
 
 const limit = 5;
 export default function ProductList() {
   const location = useLocation();
   const query = queryString.parse(location.search);
   const [name, setName] = useState<string | undefined>(query?.key ? String(query?.key) : undefined);
+  const [nameKey, setNameKey] = useState<string>(uuid());
   const [brand, setBrand] = useState<string | undefined>(
     query?.brand ? String(query?.brand) : undefined
   );
@@ -45,16 +49,13 @@ export default function ProductList() {
 
   const products = data?.data?.content;
 
-  const handleChangePage = useCallback(
-    (page: number) => {
-      setOffset(page);
-      navigate({
-        pathname: '/products',
-        search: `?${createSearchParams({ ...query, page: `${page}` })}`,
-      });
-    },
-    [offset]
-  );
+  const handleChangePage = (page: number) => {
+    setOffset(page);
+    navigate({
+      pathname: '/products',
+      search: `?${createSearchParams({ ...query, page: `${page}` })}`,
+    });
+  };
 
   const handleChangeName = debounce((event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event?.target?.value;
@@ -65,6 +66,16 @@ export default function ProductList() {
       search: `?${createSearchParams({ ...query, page: `1`, key: `${name}` })}`,
     });
   }, 1000);
+
+  const handleClearName = (name: string) => {
+    setName(name);
+    setNameKey(uuid());
+    setOffset(1);
+    navigate({
+      pathname: '/products',
+      search: `?${createSearchParams({ ...query, page: `1`, key: `${name}` })}`,
+    });
+  };
 
   const handleChangeCategory = (name: string) => {
     setCategory(name);
@@ -112,6 +123,24 @@ export default function ProductList() {
                   placeholder="Tìm kiếm theo tên sản phẩm"
                   defaultValue={name}
                   onChange={handleChangeName}
+                  key={nameKey}
+                  rightSection={
+                    name ? (
+                      isLoading ? (
+                        <ActionIcon>
+                          <IconLoader2 />
+                        </ActionIcon>
+                      ) : (
+                        <ActionIcon
+                          onClick={() => {
+                            handleClearName('');
+                          }}
+                        >
+                          <IconX />
+                        </ActionIcon>
+                      )
+                    ) : undefined
+                  }
                 />
               </div>
             </Grid.Col>
