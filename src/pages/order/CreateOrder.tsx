@@ -41,6 +41,21 @@ export default function CreateOrder() {
         }
       });
     }
+
+    // clear
+    return () => {
+      window.removeEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          setOpened(false);
+        }
+      });
+
+      window.removeEventListener('keydown', (e) => {
+        if (e.key === 'F9') {
+          setOpened(true);
+        }
+      });
+    };
   }, [opened]);
 
   const rows = products.map((element) => (
