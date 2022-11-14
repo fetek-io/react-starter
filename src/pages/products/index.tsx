@@ -15,12 +15,13 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { getProducts, Product } from '@/services/productService';
 import { useLocation, useNavigate } from 'react-router';
-import { createSearchParams } from 'react-router-dom';
+import { createSearchParams, Link } from 'react-router-dom';
 import * as queryString from 'query-string';
 import { SubTitle } from '@/components/core/Typography';
 import { debounce } from 'lodash';
 import { IconX, IconLoader2 } from '@tabler/icons';
 import { v4 as uuid } from 'uuid';
+import { formatNumberCurrency } from '@/utils/myUtil';
 
 const limit = 5;
 export default function ProductList() {
@@ -29,10 +30,10 @@ export default function ProductList() {
   const [name, setName] = useState<string | undefined>(query?.key ? String(query?.key) : undefined);
   const [nameKey, setNameKey] = useState<string>(uuid());
   const [brand, setBrand] = useState<string | undefined>(
-    query?.brand ? String(query?.brand) : undefined
+    query?.brand ? String(query?.brand) : 'all'
   );
   const [category, setCategory] = useState<string | undefined>(
-    query?.category ? String(query?.category) : 'Bánh kẹo'
+    query?.category ? String(query?.category) : 'all'
   );
   const [offset, setOffset] = useState(query?.page ? Number(query?.page) : 1);
   const navigate = useNavigate();
@@ -40,8 +41,8 @@ export default function ProductList() {
   const { data, isLoading } = useQuery([name, brand, category, offset], () =>
     getProducts({
       name: name ? name : undefined,
-      brand,
-      category,
+      brand: brand && brand !== 'all' ? brand : undefined,
+      category: category && category !== 'all' ? category : undefined,
       offset: offset ? offset - 1 : offset,
       limit,
     })
@@ -98,6 +99,7 @@ export default function ProductList() {
       <Card withBorder shadow={'md'} p={30} m={30} radius={'md'}>
         <Tabs variant="outline" value={category} onTabChange={handleChangeCategory}>
           <Tabs.List>
+            <Tabs.Tab value="all">Tất cả</Tabs.Tab>
             <Tabs.Tab value="Bánh kẹo">Bánh kẹo</Tabs.Tab>
             <Tabs.Tab value="messages">Messages</Tabs.Tab>
             <Tabs.Tab value="settings">Settings</Tabs.Tab>
@@ -106,7 +108,9 @@ export default function ProductList() {
         <Stack spacing={'xl'}>
           <Grid className="mt-4">
             <Grid.Col lg={8} xs={12} className="flex items-center gap-2">
-              <Button>Tạo mới</Button>
+              <Link to="/products/create">
+                <Button>Tạo mới</Button>
+              </Link>
             </Grid.Col>
             <Grid.Col lg={4} xs={12} className="flex items-center justify-end">
               <Button className="mr-2" variant="outline">
@@ -127,11 +131,12 @@ export default function ProductList() {
                   rightSection={
                     name ? (
                       isLoading ? (
-                        <ActionIcon>
+                        <ActionIcon size={'xs'}>
                           <IconLoader2 />
                         </ActionIcon>
                       ) : (
                         <ActionIcon
+                          size={'xs'}
                           onClick={() => {
                             handleClearName('');
                           }}
@@ -149,6 +154,7 @@ export default function ProductList() {
                 value={brand}
                 onChange={handleChangeBrand}
                 data={[
+                  { label: 'Tất cả', value: 'all' },
                   { label: 'Orion', value: 'Orion' },
                   { label: 'Angular', value: 'ng' },
                   { label: 'Vue', value: 'vue' },
@@ -177,7 +183,7 @@ export default function ProductList() {
                       <td>{element.name}</td>
                       <td>{element.category}</td>
                       <td>{element.brand}</td>
-                      <td className="text-right">{element.price}</td>
+                      <td className="text-right">{formatNumberCurrency(`${element.price}`)}</td>
                     </tr>
                   ))}
               </tbody>

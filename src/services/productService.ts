@@ -9,13 +9,13 @@ export interface ProductRequest {
 }
 
 export interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  amount: number;
-  category: string;
-  brand: string;
+  id?: number;
+  name?: string;
+  description?: string;
+  price?: number;
+  amount?: number;
+  category?: string;
+  brand?: string;
 }
 
 export async function getProducts(productRequest: ProductRequest) {
